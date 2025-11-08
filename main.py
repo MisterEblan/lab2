@@ -1,65 +1,46 @@
-from collections.abc import Callable
-from math import tan, cos
+from math import sqrt
 
-eps: float = 1e-3
+GREEN = "\033[32m"
+RED   = "\033[31m"
+RESET = "\033[0m"
 
-def f_1(x: float) -> float:
-    """Часть функции, вычисляемая при x >= 0.2
-
-    Args:
-        x: значение аргумента.
-
-    Returns:
-        Результат вычисления функции.
-
-    Raises:
-        ZeroDivisionError: если знаменатель в тангенсе слишком близок к нулю.
-    """
-    if abs(cos(x)) < eps:
-        raise ZeroDivisionError("Знаменатель в тангенсе близок к нулю!")
-
-    result = (x * tan(x)) - (1 / 3)
-
-    return result
-
-def f_2(x: float) -> float:
-    """Часть функции, вычисляемая при x < 0.2
+def is_in_ring(
+    *xs: float,
+    r_1: float,
+    r_2: float
+) -> bool:
+    """Определяет, находится ли точка в кольце
 
     Args:
-        x: значение аргумента.
+        xs: координаты в n-мерном пространстве.
+        r_1: радиус первой окружности.
+        r_2: радиус второй, бОльшей окружности.
 
     Returns:
-        Результат вычисления функции.
+        Находится точка в кольце или нет.
     """
+    norm = sqrt(
+        sum(x**2 for x in xs)
+    )
 
-    result = cos(3 * x) + 3
-
-    return result
-
-def function_factory(x: float) -> Callable[[float], float]:
-    """Фабрика функций
-
-    При x < 0.2 возвращает f_2, при x >= 0.2 - f_1
-
-    Args:
-        x: значение аргумента для определения функции..
-
-    Returns:
-        Часть функции.
-    """
-    if x >= 0.2:
-        return f_1
-
-    return f_2
-
+    return r_1 <= norm <= r_2
 
 def main() -> None:
-    x = float(input("Ввод >>> "))
+    print("Введите координаты через запятую.")
 
-    f = function_factory(x)
+    x, y = map(
+        float,
+        input("Ввод >>> ").strip().split(",")
+    )
 
-    print(f"x={x}")
-    print(f"f={f(x)}")
+    if is_in_ring(
+        x, y,
+        r_1=2,
+        r_2=4
+    ):
+        print(f"{GREEN}Точка находится в кольце.{RESET}")
+    else:
+        print(f"{RED}Точка вне кольца.{RESET}")
 
 if __name__ == "__main__":
     main()
