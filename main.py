@@ -1,8 +1,8 @@
 from task1_functions import function_factory
 from task2_functions import (
-    is_in_ring,
-    R_1,
-    R_2,
+    is_in_region,
+    L_EXTERNAL,
+    L_INTERNAL,
     GREEN,
     RED,
     RESET
@@ -26,11 +26,15 @@ def main() -> None:
             input("Введите x и y через запятую >>> ").strip().split(",")
         )
 
-        if is_in_ring(x,y, r_1=R_1, r_2=R_2):
-            print(f"{GREEN}Точка внутри кольца.{RESET}")
+        if is_in_region(
+            x, y,
+            l_ext=L_EXTERNAL,
+            l_int=L_INTERNAL
+        ):
+            print(f"{GREEN}Точка внутри области.{RESET}")
             return
         else:
-            print(f"{RED}Точка вне кольца.{RESET}")
+            print(f"{RED}Точка вне области.{RESET}")
             return
     else:
         print("Неизвестный номер задания.")
