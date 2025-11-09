@@ -2,7 +2,7 @@ from main import main
 from unittest.mock import MagicMock, patch
 
 @patch("builtins.print")
-@patch("builtins.input", return_value="2, 2")
+@patch("builtins.input", return_value="0.5, 0.5")
 def test_in_ring(
     mock_input: MagicMock,
     mock_print: MagicMock,
@@ -14,11 +14,11 @@ def test_in_ring(
             if in_ring_message in str(arg):
                 assert True
                 return
-        assert False, "Ожидалось сообщение о том, что точка будет в кольце"
+        assert False, "Ожидалось сообщение о том, что точка будет в области"
 
 
 @patch("builtins.print")
-@patch("builtins.input", return_value="3, 2")
+@patch("builtins.input", return_value="-1, 0")
 def test_in_ring_1(
     mock_input: MagicMock,
     mock_print: MagicMock,
@@ -30,10 +30,10 @@ def test_in_ring_1(
         if in_ring_message in str(arg):
             assert True
             return
-    assert False, "Ожидалось сообщение о том, что точка будет в кольце"
+    assert False, "Ожидалось сообщение о том, что точка будет в области"
 
 @patch("builtins.print")
-@patch("builtins.input", return_value="0, 0")
+@patch("builtins.input", return_value="4, 2")
 def test_out_of_ring(
     mock_input: MagicMock,
     mock_print: MagicMock,
@@ -45,7 +45,7 @@ def test_out_of_ring(
         if out_of_ring_message in str(arg):
             assert True
             return
-    assert False, "Ожидалось сообщение о том, что точка будет вне кольца"
+    assert False, "Ожидалось сообщение о том, что точка будет вне области"
 
 @patch("builtins.print")
 @patch("builtins.input", return_value="0, 6")
@@ -60,4 +60,4 @@ def test_out_of_ring_2(
         if out_of_ring_message in str(arg):
             assert True
             return
-    assert False, "Ожидалось сообщение о том, что точка будет вне кольца"
+    assert False, "Ожидалось сообщение о том, что точка будет вне области"

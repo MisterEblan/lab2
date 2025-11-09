@@ -6,31 +6,42 @@ GREEN = "\033[32m"
 RED   = "\033[31m"
 RESET = "\033[0m"
 
-# Радиус первой, малой окружности
-R_1: float = 1.0
-# Радиус второй, бОльшей окружности
-R_2: float = 4.0
+# Сторона внешнего квадрата
+L_EXTERNAL = 2
+# Сторона внутренних квадратов
+L_INTERNAL = 1
 
-def is_in_ring(
-    *xs: float,
-    r_1: float,
-    r_2: float
+def is_in_region(
+    x: float,
+    y: float,
+    l_ext: float,
+    l_int: float
 ) -> bool:
-    """Определяет, находится ли точка в кольце
+    """Определяет, находится ли точка в области
 
     Args:
-        xs: координаты в n-мерном пространстве.
-        r_1: радиус первой окружности.
-        r_2: радиус второй, бОльшей окружности.
+        x: координата точки по оси $Ox$.
+        y: координата точки по оси $Oy$.
+        l_ext: длина стороны внешнего квадрата.
+        l_int: длина сторон внутренних квадратов.
 
     Returns:
-        Находится точка в кольце или нет.
+        Находится ли точка в области.
     """
-    norm = sqrt(
-        sum(x**2 for x in xs)
-    )
 
-    return r_1 <= norm <= r_2
+    # Проверка, что точка внутри внешнего квадрата
+    if abs(x) > l_ext / 2 or abs(y) > l_ext / 2:
+        return False
+
+    # Проверка, что точка не попадает в верхний левый квадрат
+    if (-l_int < x < 0) and (0 < y < l_int):
+        return False
+
+    # Проверка, что точка не попадает в нижний правый квадрат
+    if (0 < x < l_int) and (-l_int < y < 0):
+        return False
+
+    return True
 
 def main() -> None:
     print("Введите координаты через запятую.")
@@ -40,14 +51,14 @@ def main() -> None:
         input("Ввод >>> ").strip().split(",")
     )
 
-    if is_in_ring(
+    if is_in_region(
         x, y,
-        r_1=R_1,
-        r_2=R_2
+        l_ext=L_EXTERNAL,
+        l_int=L_INTERNAL
     ):
-        print(f"{GREEN}Точка находится в кольце.{RESET}")
+        print(f"{GREEN}Точка находится в области.{RESET}")
     else:
-        print(f"{RED}Точка вне кольца.{RESET}")
+        print(f"{RED}Точка вне области.{RESET}")
 
 if __name__ == "__main__":
     main()
