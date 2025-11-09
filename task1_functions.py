@@ -1,10 +1,13 @@
 from collections.abc import Callable
-from math import tan, cos
+from math import cos, exp
 
 eps: float = 1e-3
 
+# Точка, в которой функция меняет определение
+THRESHOLD = 1
+
 def f_1(x: float) -> float:
-    """Часть функции, вычисляемая при x >= 0.2
+    """Часть функции, вычисляемая при x >= 1
 
     Args:
         x: значение аргумента.
@@ -15,15 +18,13 @@ def f_1(x: float) -> float:
     Raises:
         ZeroDivisionError: если знаменатель в тангенсе слишком близок к нулю.
     """
-    if abs(cos(x)) < eps:
-        raise ZeroDivisionError("Знаменатель в тангенсе близок к нулю!")
 
-    result = (x * tan(x)) - (1 / 3)
+    result = cos(x) - exp(-x / 2) + x - 1
 
     return result
 
 def f_2(x: float) -> float:
-    """Часть функции, вычисляемая при x < 0.2
+    """Часть функции, вычисляемая при x < 1
 
     Args:
         x: значение аргумента.
@@ -31,15 +32,14 @@ def f_2(x: float) -> float:
     Returns:
         Результат вычисления функции.
     """
-
-    result = cos(3 * x) + 3
+    result = (3 * x) / (-4 * x + 4)
 
     return result
 
 def function_factory(x: float) -> Callable[[float], float]:
     """Фабрика функций
 
-    При x < 0.2 возвращает f_2, при x >= 0.2 - f_1
+    При x < 1 возвращает f_2, при x >= 1 - f_1
 
     Args:
         x: значение аргумента для определения функции..
@@ -47,7 +47,8 @@ def function_factory(x: float) -> Callable[[float], float]:
     Returns:
         Часть функции.
     """
-    if x >= 0.2:
+    if x >= THRESHOLD:
         return f_1
 
     return f_2
+
