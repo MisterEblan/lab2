@@ -1,58 +1,19 @@
-from math import sqrt
-import logging
-logging.basicConfig()
-logger = logging.getLogger("MAIN")
-
-# Escape-последовательности для цвета текста в терминале
-GREEN = "\033[32m"
-RED   = "\033[31m"
-RESET = "\033[0m"
-
-# Радиус первой, малой окружности
-R_1: float = 1.0
-# Радиус второй, бОльшей окружности
-R_2: float = 4.0
-
-def is_in_ring(
-    *xs: float,
-    r_1: float,
-    r_2: float
-) -> bool:
-    """Определяет, находится ли точка в кольце
-
-    Args:
-        xs: координаты в n-мерном пространстве.
-        r_1: радиус первой окружности.
-        r_2: радиус второй, бОльшей окружности.
-
-    Returns:
-        Находится точка в кольце или нет.
-    """
-    norm = sqrt(
-        sum(x**2 for x in xs)
-    )
-
-    return r_1 <= norm <= r_2
+from task1_functions import function_factory
+from task2_functions import is_in_ring
 
 def main() -> None:
-    logger.info("Started")
-    print("Введите координаты через запятую.")
+    task_num = int(input("Введите номера задания (1 или 2) >>> "))
 
-    logger.info("Getting coords")
-    x, y = map(
-        float,
-        input("Ввод >>> ").strip().split(",")
-    )
+    if task_num == 1:
+        x = float(input("Введите x >>> "))
 
-    logger.info("Calling is_in_ring")
-    if is_in_ring(
-        x, y,
-        r_1=R_1,
-        r_2=R_2
-    ):
-        print(f"{GREEN}Точка находится в кольце.{RESET}")
-    else:
-        print(f"{RED}Точка вне кольца.{RESET}")
+        f = function_factory(x)
+
+        print(f"x={x}")
+        print(f"f={f(x)}")
+
+    if task_num == 2:
+        x,
 
 if __name__ == "__main__":
     main()
