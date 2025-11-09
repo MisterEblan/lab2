@@ -1,7 +1,5 @@
 from math import sqrt
 import logging
-logging.basicConfig()
-logger = logging.getLogger("MAIN")
 
 # Escape-последовательности для цвета текста в терминале
 GREEN = "\033[32m"
@@ -35,16 +33,13 @@ def is_in_ring(
     return r_1 <= norm <= r_2
 
 def main() -> None:
-    logger.info("Started")
     print("Введите координаты через запятую.")
 
-    logger.info("Getting coords")
     x, y = map(
         float,
         input("Ввод >>> ").strip().split(",")
     )
 
-    logger.info("Calling is_in_ring")
     if is_in_ring(
         x, y,
         r_1=R_1,
