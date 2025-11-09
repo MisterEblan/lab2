@@ -1,8 +1,17 @@
 from math import sqrt
+import logging
+logging.basicConfig()
+logger = logging.getLogger("MAIN")
 
+# Escape-последовательности для цвета текста в терминале
 GREEN = "\033[32m"
 RED   = "\033[31m"
 RESET = "\033[0m"
+
+# Радиус первой, малой окружности
+R_1: float = 1.0
+# Радиус второй, бОльшей окружности
+R_2: float = 4.0
 
 def is_in_ring(
     *xs: float,
@@ -26,17 +35,20 @@ def is_in_ring(
     return r_1 <= norm <= r_2
 
 def main() -> None:
+    logger.info("Started")
     print("Введите координаты через запятую.")
 
+    logger.info("Getting coords")
     x, y = map(
         float,
         input("Ввод >>> ").strip().split(",")
     )
 
+    logger.info("Calling is_in_ring")
     if is_in_ring(
         x, y,
-        r_1=2,
-        r_2=4
+        r_1=R_1,
+        r_2=R_2
     ):
         print(f"{GREEN}Точка находится в кольце.{RESET}")
     else:
