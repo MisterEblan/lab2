@@ -1,8 +1,8 @@
 from main import main
 from unittest.mock import MagicMock, patch
 
-@patch("builtins.input", return_value="-0.5")
 @patch("builtins.print")
+@patch("builtins.input", return_value="-0.5")
 def test_normal(
     mock_input: MagicMock,
     mock_print: MagicMock
@@ -14,8 +14,8 @@ def test_normal(
     assert ("x=0.5" in arg for arg in called_args)
 
 
-@patch("builtins.input", return_value="0.2")
 @patch("builtins.print")
+@patch("builtins.input", return_value="0.2")
 def test_normal_1(
     mock_input: MagicMock,
     mock_print: MagicMock
@@ -26,8 +26,8 @@ def test_normal_1(
     assert ("f=" in arg for arg in called_args)
     assert ("x=0.2" in arg for arg in called_args)
 
-@patch("builtins.input", return_value="0.5")
 @patch("builtins.print")
+@patch("builtins.input", return_value="0.5")
 def test_normal_2(
     mock_input: MagicMock,
     mock_print: MagicMock
